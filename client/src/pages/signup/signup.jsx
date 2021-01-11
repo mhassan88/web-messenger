@@ -48,7 +48,7 @@ class signupPage extends FormComponent {
               </div>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={7} xl={7}>
-              <Grid container spacing={7}>
+              <Grid container spacing={5}>
                 <Grid item xs={12}>
                   <div className="margin-top align-right">
                     <span className="text-style">Already have an account?</span>
