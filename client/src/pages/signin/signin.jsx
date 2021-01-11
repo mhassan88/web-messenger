@@ -6,6 +6,7 @@ import "./signin.css";
 import { Container, Grid, Button, TextField } from "@material-ui/core";
 import Joi from "joi";
 import FormComponent from "../../common/form";
+import { Link } from "react-router-dom";
 
 class signupPage extends FormComponent {
   state = {
@@ -49,7 +50,9 @@ class signupPage extends FormComponent {
                 <Grid item xs={12}>
                   <div className="margin-top align-right">
                     <span className="text-style">Don't have an account?</span>
-                    <Button variant="contained">Create account</Button>
+                    <Link to="/signup">
+                      <Button variant="contained">Create account</Button>
+                    </Link>
                   </div>
                 </Grid>
                 <Grid item xs={12}>
