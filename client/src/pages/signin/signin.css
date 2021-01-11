@@ -1,0 +1,79 @@
+.bg-container {
+  height: auto;
+  width: auto;
+}
+.img-gradient {
+  position: absolute;
+  top: 0;
+  height: 700px;
+  width: 425px;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(58, 141, 255, 0.85),
+    rgba(134, 185, 255, 0.85)
+  );
+  color: white;
+  text-align: center;
+}
+.fixed-size {
+  height: 700px;
+  width: 425px;
+}
+.bg-img {
+  top: 0;
+}
+
+.text-style {
+  color: gray;
+  padding: 10px;
+}
+.component-padding {
+  padding: 50px;
+}
+.align-right {
+  text-align: right;
+}
+.align-left {
+  text-align: left;
+}
+.align-center {
+  text-align: center;
+}
+.apply-border {
+  border: 3px solid black;
+  margin: auto;
+}
+.align-left {
+  text-align: left;
+}
+
+.img-txt {
+  position: relative;
+  top: 230px;
+  padding: 70px;
+}
+
+.margin-top {
+  margin-top: 30px;
+}
+.margin-left {
+  margin-left: 100px;
+}
+.margin-right {
+  margin-right: 100px;
+}
+
+.button-style {
+  color: #3a8dff;
+  padding: 0px;
+  float: right;
+}
+.welcome-text {
+  font-size: 30px;
+}
+
+@media screen and (max-width: 960px) {
+  .disappear-small {
+    display: none;
+  }
+}

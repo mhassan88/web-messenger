@@ -2,25 +2,23 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 import bgImg from "../../assets/images/bg-img.png";
-import "./signup.css";
+import "./signin.css";
 import { Container, Grid, Button, TextField } from "@material-ui/core";
 import Joi from "joi";
 import FormComponent from "../../common/form";
 
 class signupPage extends FormComponent {
   state = {
-    data: { username: "", email: "", password: "", confirmPassword: "" },
+    data: { email: "", password: "" },
     errors: {},
   };
 
   schema = {
-    username: Joi.string().required().alphanum().label("Username"),
     email: Joi.string()
       .required()
       .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
       .label("Email"),
-    password: Joi.string().required().min(6).alphanum().label("Password"),
-    confirmPassword: Joi.ref("password"),
+    password: Joi.string().required().label("Password"),
   };
   doSubmit = () => {
     //call to server
@@ -50,28 +48,15 @@ class signupPage extends FormComponent {
               <Grid container spacing={7}>
                 <Grid item xs={12}>
                   <div className="margin-top align-right">
-                    <span className="text-style">Already have an account?</span>
-                    <Button variant="contained">Login</Button>
+                    <span className="text-style">Don't have an account?</span>
+                    <Button variant="contained">Create account</Button>
                   </div>
                 </Grid>
                 <Grid item xs={12}>
-                  <div className="welcome-text">Create an account.</div>
+                  <div className="welcome-text">Welcome back!</div>
                 </Grid>
                 <Grid item xs={12}>
                   <form autoComplete="off">
-                    <TextField
-                      type=""
-                      error={!(this.state.errors.username == null)}
-                      name="username"
-                      id="username"
-                      label="Username"
-                      value={this.state.data.username}
-                      helperText={this.state.errors.username}
-                      onChange={this.handleChange}
-                    />
-                    <br />
-                    <br />
-                    <br />
                     <TextField
                       type=""
                       error={!(this.state.errors.email == null)}
@@ -98,25 +83,12 @@ class signupPage extends FormComponent {
                     <br />
                     <br />
                     <br />
-                    <TextField
-                      type="password"
-                      error={!(this.state.errors.confirmPassword == null)}
-                      name="confirmPassword"
-                      id="confirmPassword"
-                      label="Confirm Password"
-                      value={this.state.data.confirmPassword}
-                      helperText={this.state.errors.confirmPassword}
-                      onChange={this.handleChange}
-                    />
-                    <br />
-                    <br />
-                    <br />
                     <Button
                       variant="contained"
                       color="primary"
                       onClick={this.handleSubmit}
                     >
-                      Create
+                      Login
                     </Button>
                   </form>
                 </Grid>
