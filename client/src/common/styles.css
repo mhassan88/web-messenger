@@ -1,0 +1,28 @@
+.marginTextField {
+  margin: 30px 0px;
+}
+.align-right {
+  text-align: right;
+  margin: 30px 10px;
+}
+.align-left {
+  text-align: left;
+  padding: 20px 9vw;
+}
+.align-center {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.add-padding {
+  padding: 20px 10vw;
+}
+.welcome-text {
+  font-size: 30px;
+  padding: 10px 10vw;
+}
+.text-style {
+  color: gray;
+  text-align: right;
+  margin: 30px 10px 30px 0px;
+}
