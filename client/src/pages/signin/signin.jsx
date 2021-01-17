@@ -4,8 +4,10 @@ import Joi from "joi";
 import FormComponent from "../../common/form";
 import { Link } from "react-router-dom";
 import BgImage from "../../common/bg";
-import "../../common/styles.css";
 import MyInput from "../../common/myinput";
+import appStyles from "../../common/styles";
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 
 class SigninPage extends FormComponent {
   state = {
@@ -25,22 +27,23 @@ class SigninPage extends FormComponent {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <Grid container>
           <BgImage />
           <Grid item xs>
-            <div className="align-right">
-              <span className="text-style">Don't have an account?</span>
+            <div className={classes.alignRight}>
+              <span className={classes.textStyle}>Don't have an account?</span>
               <Link to="/signup">
                 <Button variant="contained" color="secondary" size="large">
                   Create account
                 </Button>
               </Link>
             </div>
-            <div className="welcome-text">Welcome back!</div>
+            <div className={classes.welcomeText}>Welcome back!</div>
             <div>
-              <form className="add-padding" onSubmit={this.handleSubmit}>
+              <form className={classes.addPadding} onSubmit={this.handleSubmit}>
                 <MyInput
                   error={!(this.state.errors.email == null)}
                   name="email"
@@ -60,7 +63,7 @@ class SigninPage extends FormComponent {
                   onChange={this.handleChange}
                 />
 
-                <div className="align-center">
+                <div className={classes.alignCenter}>
                   <Button variant="contained" color="primary" type="submit">
                     Login
                   </Button>
@@ -74,4 +77,9 @@ class SigninPage extends FormComponent {
   }
 }
 
-export default SigninPage;
+SigninPage.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+export default withStyles(appStyles.pageStyles, { withTheme: true })(
+  SigninPage
+);

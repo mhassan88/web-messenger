@@ -4,8 +4,10 @@ import Joi from "joi";
 import FormComponent from "../../common/form";
 import { Link } from "react-router-dom";
 import BgImage from "../../common/bg";
-import "../../common/styles.css";
 import MyInput from "../../common/myinput";
+import appStyles from "../../common/styles";
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 
 class SignupPage extends FormComponent {
   state = {
@@ -27,27 +29,31 @@ class SignupPage extends FormComponent {
     password: Joi.string().required().min(6).label("Password"),
     confirmPassword: Joi.ref("password"),
   };
+
   doSubmit = () => {
     //call to server
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <Grid container>
           <BgImage />
           <Grid item xs>
-            <div className="align-right">
-              <span className="text-style">Already have an account?</span>
+            <div className={classes.alignRight}>
+              <span className={classes.textStyle}>
+                Already have an account?
+              </span>
               <Link to="/signin">
                 <Button variant="contained" color="secondary" size="large">
                   Login
                 </Button>
               </Link>
             </div>
-            <div className="welcome-text">Create an account.</div>
+            <div className={classes.welcomeText}>Create an account.</div>
             <div>
-              <form className="add-padding" onSubmit={this.handleSubmit}>
+              <form className={classes.addPadding} onSubmit={this.handleSubmit}>
                 <MyInput
                   error={!(this.state.errors.username == null)}
                   name="username"
@@ -83,7 +89,7 @@ class SignupPage extends FormComponent {
                   onChange={this.handleChange}
                 />
 
-                <div className="align-center">
+                <div className={classes.alignCenter}>
                   <Button variant="contained" color="primary" type="submit">
                     Create account
                   </Button>
@@ -96,5 +102,9 @@ class SignupPage extends FormComponent {
     );
   }
 }
-
-export default SignupPage;
+SignupPage.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+export default withStyles(appStyles.pageStyles, { withTheme: true })(
+  SignupPage
+);

@@ -1,5 +1,4 @@
 import { TextField } from "@material-ui/core";
-import "./styles.css";
 const MyInput = ({
   name,
   label,
@@ -10,7 +9,7 @@ const MyInput = ({
   placeholder,
 }) => {
   return (
-    <div className="marginTextField">
+    <div style={{ margin: "30px 0px" }}>
       <TextField
         fullWidth={true}
         type={

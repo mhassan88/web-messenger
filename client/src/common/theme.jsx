@@ -21,6 +21,7 @@ export const theme = createMuiTheme({
     secondary: {
       main: "#FFFFFF",
       contrastText: "#3A8DFF",
+      grad: "linear-gradient(0deg, #3A8DFF, #86B9FF)",
     },
   },
 });
