@@ -1,29 +1,35 @@
-const { User, validate } = require("../models/user");
-const mongoose = require("mongoose");
-const express = require("express");
+const {User, validate} = require('../models/user');
+const mongoose = require('mongoose');
+const express = require('express');
 const router = express.Router();
-const _ = require("lodash");
-const bcrypt = require("bcrypt");
-const config = require("config");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
+const config = require('config');
+const jwt = require('jsonwebtoken')
+const auth = require('../middleware/auth')
 
-router.post("/", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+router.get('/me', auth, async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
+})
 
-  let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already registered");
+router.post('/', async (req, res) => {
+    console.log(req.body)
+    const { error } = validate(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
 
-  user = new User(_.pick(req.body, ["name", "email", "password"]));
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
+    let user = await User.findOne({email: req.body.email});
+    if(user) return res.status(400).send('User already registered');
 
-  await user.save();
-  const token = user.generateToken();
-  res
-    .status(201)
-    .header("x-auth-token", token)
-    .send(_.pick(user, ["_id", "name", "email"]));
-});
+    const { username, email, password } = req.body;
+    user = new User({ username, email, password });
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt)
+
+    await user.save();
+    const token = user.generateToken();
+    const { _id } = user;
+    res.setHeader('Access-Control-Expose-Headers', 'x-auth-token');
+    res.status(201).header('x-auth-token', token).send({ _id, username, email });
+})
 
 module.exports = router;

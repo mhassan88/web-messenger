@@ -7,9 +7,11 @@ const mongoose = require("mongoose");
 const config = require("config");
 const register = require("./routes/register");
 const login = require("./routes/login");
+const cors = require("cors");
 
 const { json, urlencoded } = express;
 var app = express();
+app.use(cors());
 if (!config.get("jwtPrivateKey")) {
   console.log("FATAL ERROR: jwtPrivateKey environment variable not defined");
   process.exit(1);
