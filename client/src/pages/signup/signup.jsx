@@ -8,9 +8,21 @@ import MyInput from "../../common/myinput";
 import appStyles from "../../common/styles";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import http from "../../services/httpService";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import { withRouter } from "react-router-dom";
+
+const apiURL = `${process.env.REACT_APP_API_URL}/api/register`;
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class SignupPage extends FormComponent {
   state = {
+    displayMessage: "",
+    open: false,
+    alertType: "",
     data: {
       username: "",
       email: "",
@@ -30,8 +42,42 @@ class SignupPage extends FormComponent {
     confirmPassword: Joi.ref("password"),
   };
 
-  doSubmit = () => {
-    //call to server
+  doSubmit = async (e) => {
+    const user = {
+      username: this.state.data.username,
+      email: this.state.data.email,
+      password: this.state.data.password,
+    };
+    http
+      .post(apiURL, user)
+      .then((res) => {
+        if (res.status === 201) {
+          this.setState({
+            displayMessage:
+              "Account created successfully, Redirecting to login page...",
+            open: true,
+            alertType: "success",
+          });
+          setTimeout(() => {
+            this.props.history.push("/signin");
+          }, 2000);
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          displayMessage: err.response.data,
+          open: true,
+          alertType: "error",
+        });
+      });
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
   };
 
   render() {
@@ -39,6 +85,15 @@ class SignupPage extends FormComponent {
     return (
       <div>
         <Grid container>
+          <Snackbar
+            open={this.state.open}
+            autoHideDuration={4000}
+            onClose={this.handleClose}
+          >
+            <Alert onClose={this.handleClose} severity={this.state.alertType}>
+              {this.state.displayMessage}
+            </Alert>
+          </Snackbar>
           <BgImage />
           <Grid item xs>
             <div className={classes.alignRight}>
@@ -105,6 +160,6 @@ class SignupPage extends FormComponent {
 SignupPage.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-export default withStyles(appStyles.pageStyles, { withTheme: true })(
-  SignupPage
+export default withRouter(
+  withStyles(appStyles.pageStyles, { withTheme: true })(SignupPage)
 );

@@ -8,9 +8,21 @@ import MyInput from "../../common/myinput";
 import appStyles from "../../common/styles";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import http from "../../services/httpService";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import { withRouter } from "react-router-dom";
+
+//change api
+const apiURL = `${process.env.REACT_APP_API_URL}/api/login`;
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class SigninPage extends FormComponent {
   state = {
+    errorMessage: "",
+    open: false,
     data: { email: "", password: "" },
     errors: {},
   };
@@ -22,8 +34,26 @@ class SigninPage extends FormComponent {
       .label("Email"),
     password: Joi.string().required().label("Password"),
   };
-  doSubmit = () => {
-    //call to server
+
+  doSubmit = async (e) => {
+    http
+      .post(apiURL, this.state.data)
+      .then((res) => {
+        if (res.status === 200) {
+          this.props.history.push("/mainpage");
+        }
+      })
+      .catch((err) => {
+        this.setState({ errorMessage: err.response.data, open: true });
+      });
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
   };
 
   render() {
@@ -31,6 +61,15 @@ class SigninPage extends FormComponent {
     return (
       <div>
         <Grid container>
+          <Snackbar
+            open={this.state.open}
+            autoHideDuration={4000}
+            onClose={this.handleClose}
+          >
+            <Alert onClose={this.handleClose} severity="error">
+              {this.state.errorMessage}
+            </Alert>
+          </Snackbar>
           <BgImage />
           <Grid item xs>
             <div className={classes.alignRight}>
@@ -80,6 +119,6 @@ class SigninPage extends FormComponent {
 SigninPage.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-export default withStyles(appStyles.pageStyles, { withTheme: true })(
-  SigninPage
+export default withRouter(
+  withStyles(appStyles.pageStyles, { withTheme: true })(SigninPage)
 );
